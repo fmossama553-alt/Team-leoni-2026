@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#071b50">
+<title>LEONI TEAM MANAGEMENT</title>
+<style>
+:root{--navy:#061947;--blue:#1764e8;--orange:#ff741c;--ink:#14213d;--muted:#71809d;--line:#e5ebf6;--green:#159b62;--red:#df414b;--shadow:0 12px 34px rgba(4,22,67,.16)}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:Inter,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;color:var(--ink)}
+body{background:linear-gradient(145deg,#061947,#0c3d9c 70%,#071c50);background-attachment:fixed}
+button,input,select{font:inherit}button{cursor:pointer}
+.shell{display:grid;grid-template-columns:248px minmax(0,1fr);min-height:100vh;max-width:1600px;margin:auto}
+.sidebar{padding:24px 16px;background:rgba(4,18,55,.88);color:#fff;display:flex;flex-direction:column;gap:24px;border-right:1px solid #ffffff1c}
+.brand{display:flex;align-items:center;gap:12px;padding:0 8px}.brandmark{width:48px;height:48px;border-radius:15px;background:linear-gradient(135deg,var(--orange),#ff9e4f);display:grid;place-items:center;font-size:25px;box-shadow:0 8px 22px #ff741c55}
+.brand strong{display:block;font-size:16px;line-height:1.1}.brand small{color:#9db9ee;font-size:10px;letter-spacing:1.4px;text-transform:uppercase}
+.navlabel{color:#7795ce;font-size:10px;font-weight:800;letter-spacing:1.6px;padding:0 12px}
+nav{display:grid;gap:7px}.navbtn{border:0;background:transparent;color:#c5d5f4;text-align:left;padding:13px 14px;border-radius:13px;font-weight:650;display:flex;gap:12px;align-items:center}
+.navbtn span:first-child{font-size:19px;width:24px;text-align:center}.navbtn:hover,.navbtn.active{background:linear-gradient(100deg,#1764e8,#0f48b6);color:#fff;box-shadow:0 8px 20px #00174455}
+.sidebarfoot{margin-top:auto;border:1px solid #ffffff20;background:#ffffff0b;border-radius:16px;padding:14px;color:#c4d4f3;font-size:12px;line-height:1.5}
+.main{padding:24px 28px 42px;min-width:0}.topbar{display:flex;align-items:center;justify-content:space-between;color:#fff;margin-bottom:22px;gap:12px}
+.eyebrow{font-size:11px;color:#a9c4f4;letter-spacing:1.5px;text-transform:uppercase;font-weight:800}.page-title{font-size:25px;margin:4px 0 0;font-weight:850}
+.topright{display:flex;align-items:center;gap:12px}.profile{display:flex;align-items:center;gap:9px;background:#ffffff12;border:1px solid #ffffff20;border-radius:14px;padding:7px 12px;color:#fff}
+.avatar{flex:none;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#65a1ff,#1353c9);color:#fff;font-weight:850;background-size:cover;background-position:center}
+.avatar.big{width:84px;height:84px;font-size:28px}
+.panel{display:none}.panel.active{display:block}
+.hero{border:1px solid #ffffff30;border-radius:22px;padding:23px 25px;color:#fff;background:linear-gradient(105deg,#0d3a91ed,#1764e8bb);box-shadow:var(--shadow);display:flex;justify-content:space-between;align-items:center;gap:18px;margin-bottom:17px}
+.hero h2{font-size:23px;margin:0 0 7px}.hero p{margin:0;color:#d2e2ff;font-size:13px;max-width:610px;line-height:1.6}.hero-visual{font-size:66px}
+.btn{border:0;border-radius:12px;padding:11px 15px;background:var(--blue);color:#fff;font-weight:750;box-shadow:0 5px 13px #0c4db533}.btn.orange{background:linear-gradient(135deg,var(--orange),#ff963d)}.btn.red{background:var(--red)}
+.btn.ghost{background:#edf3ff;color:#17458f;box-shadow:none;border:1px solid #dbe6fb}.btn.small{padding:7px 10px;font-size:12px}.btn:hover{filter:brightness(1.06)}
+.grid{display:grid;gap:14px}.stats{grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:15px}
+.stat{background:#fff;border-radius:18px;padding:16px 17px;box-shadow:var(--shadow);display:flex;align-items:center;gap:13px;min-width:0}
+.staticon{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font-size:22px;background:#e9f1ff}
+.stat label{font-size:11px;color:var(--muted);display:block;margin-bottom:4px}.stat strong{font-size:24px;line-height:1;color:var(--navy)}
+.cols{grid-template-columns:minmax(0,1.45fr) minmax(280px,.85fr);align-items:start}.cols.equal{grid-template-columns:repeat(2,minmax(0,1fr))}
+.card{background:#fff;border-radius:19px;padding:18px;box-shadow:var(--shadow);min-width:0}
+.cardhead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:13px;flex-wrap:wrap}.cardhead h3{font-size:15px;margin:0;color:var(--navy)}
+.muted{color:var(--muted);font-size:12px}.teamlist{display:grid;gap:12px}
+.teamrow{display:grid;grid-template-columns:40px minmax(0,1fr) auto;align-items:center;gap:10px}.teamicon{width:38px;height:38px;border-radius:13px;background:#eaf1ff;display:grid;place-items:center;font-size:18px}
+.teamrow b{font-size:13px}.teamrow small{display:block;color:var(--muted);font-size:11px;margin-top:3px}
+.progress{height:7px;background:#e8eefb;border-radius:99px;overflow:hidden;margin-top:7px}.progress i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#1764e8,#40a0ff)}
+.percent{font-size:12px;font-weight:850;color:var(--navy)}
+.chart{height:190px;display:flex;align-items:end;gap:14px;padding:15px 8px 26px;border-bottom:1px solid var(--line)}
+.bargrp{flex:1;display:flex;align-items:end;justify-content:center;gap:6px;height:100%;position:relative}
+.bar{width:min(22px,40%);border-radius:7px 7px 0 0;background:linear-gradient(180deg,#5b9bff,#1764e8);position:relative;min-height:3px}
+.bar.orangebar{background:linear-gradient(180deg,#ffad69,#ff741c)}
+.bar span{position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:800;color:var(--navy);white-space:nowrap}
+.barlabel{position:absolute;bottom:-22px;font-size:10px;color:var(--muted);white-space:nowrap}
+.legend{display:flex;gap:15px;margin-top:30px;font-size:11px;color:var(--muted)}.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px;background:var(--blue)}.dot.orange{background:var(--orange)}
+.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:480px;font-size:12px}
+th{text-align:left;color:var(--muted);background:#f4f7fd;padding:11px 10px;font-size:10px;text-transform:uppercase;letter-spacing:.5px}
+td{padding:11px 10px;border-bottom:1px solid #edf1f8}td b{color:var(--navy)}
+.status{display:inline-flex;padding:5px 9px;border-radius:99px;font-size:10px;font-weight:800;background:#e2f7ed;color:#11834e}.status.warn{background:#fff0dc;color:#b96b10}.status.bad{background:#ffe7e9;color:#c52e3b}
+.toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px;flex-wrap:wrap}.toolbar h2{color:#fff;font-size:19px;margin:0}.toolbar p{color:#b8cff6;font-size:12px;margin:4px 0 0}
+.field{display:grid;gap:6px}.field label{font-size:11px;font-weight:750;color:#62718d}
+.field input,.field select{width:100%;border:1px solid #dce5f4;border-radius:11px;padding:10px 11px;background:#fbfcff;color:var(--ink);outline:none}
+.field input:focus,.field select:focus{border-color:var(--blue)}.field input[readonly]{background:#eef4ff;font-weight:800;color:#164fae}
+.formgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px}.formgrid.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.postgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.post{border:1px solid #e2eafb;border-radius:15px;padding:13px;background:#f7f9ff}.post .pico{font-size:23px}.post b{display:block;font-size:12px;margin:5px 0}.post small{font-size:10px;color:var(--muted)}
+.hint{background:#fff5eb;border:1px solid #ffdfc4;border-radius:12px;padding:11px 13px;color:#8e4c1c;font-size:11px;line-height:1.5;margin-top:12px}
+.tag{border-radius:8px;padding:5px 7px;background:#edf3ff;color:#1b58b6;font-size:10px;font-weight:800}
+.sel{border:1px solid #dce5f4;border-radius:9px;padding:8px;background:#fbfcff}
+.bottomnav{display:none}
+.login{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:20px;background:linear-gradient(145deg,#061947,#0c3d9c 70%,#071c50)}
+.logincard{background:#fff;border-radius:22px;padding:28px 24px;width:min(380px,100%);box-shadow:var(--shadow);text-align:center}.logincard h2{margin:4px 0 2px;font-size:19px;color:var(--navy)}.logincard .field{text-align:left;margin-top:10px}
+.toast{position:fixed;right:20px;top:20px;background:#0c8d59;color:#fff;padding:13px 18px;border-radius:12px;box-shadow:var(--shadow);z-index:50;display:none;font-size:13px;font-weight:800}
+body[data-role=leader] .adm,body[data-role=admin] .ldr{display:none!important}
+@media(max-width:1050px){.shell{grid-template-columns:210px 1fr}.main{padding:20px}.stats{grid-template-columns:repeat(2,1fr)}.cols{grid-template-columns:1fr}.postgrid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:700px){.shell{display:block;padding-bottom:76px}.sidebar{display:none}.main{padding:15px 13px 28px}.topright .profile{display:none}.hero{padding:17px}.hero h2{font-size:18px}.hero-visual{font-size:40px}.stats{gap:9px}.stat{padding:12px 10px}.stat strong{font-size:20px}.card{padding:14px}.cols.equal,.formgrid,.formgrid.two{grid-template-columns:1fr}.postgrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.bottomnav{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:30;justify-content:space-around;background:#061947f2;border-top:1px solid #ffffff20;padding:7px 4px calc(7px + env(safe-area-inset-bottom))}
+.bottomnav button{border:0;background:none;color:#a9c3f5;font-size:10px;font-weight:700;display:grid;gap:2px;justify-items:center;min-width:0}.bottomnav button span{font-size:19px}.bottomnav button.active{color:#ff9a4d}}
+</style>
+</head>
+<body>
+<div class="shell">
+<aside class="sidebar">
+ <div class="brand"><div class="brandmark">🏭</div><div><strong>LEONI TEAM<br>MANAGEMENT</strong><small>Production portal</small></div></div>
+ <div class="navlabel">ESPACE DE TRAVAIL</div>
+ <nav id="sideNav">
+  <button class="navbtn active" data-page="dashboard"><span>▦</span> Dashboard</button>
+  <button class="navbtn ldr" data-page="team"><span>👥</span> Gestion de mon équipe</button>
+  <button class="navbtn ldr" data-page="hourly"><span>🎯</span> Objectif & horaire</button>
+  <button class="navbtn" data-page="reports"><span>📊</span> Rapports</button>
+  <button class="navbtn adm" data-page="supervisor"><span>🛡️</span> Équipes</button>
+  <button class="navbtn adm" data-page="users"><span>🔐</span> Utilisateurs</button>
+ </nav>
+ <div class="navlabel">COMPTE</div>
+ <nav><button class="navbtn" data-page="profile"><span>👤</span> Mon profil</button></nav>
+ <div class="sidebarfoot"><b id="sbRole"></b><br>Données synchronisées avec Firebase.</div>
+</aside>
+<main class="main">
+<header class="topbar">
+ <div><div class="eyebrow">LEONI · OPERATIONS PORTAL</div><h1 class="page-title" id="pageTitle">Dashboard</h1></div>
+ <div class="topright"><div class="profile"><span id="topAv"></span><div><b id="roleName" style="font-size:12px"></b><div id="roleSub" style="font-size:10px;color:#b9d0ff"></div></div></div><button class="btn small orange" onclick="logout()">⎋ Quitter</button></div>
+</header>
+
+<section class="panel active" id="dashboard">
+ <div class="hero"><div><h2>Bonjour, bienvenue sur LEONI TEAM MANAGEMENT</h2><p>Objectifs du jour, production horaire, présence et rapports — tout dans un seul espace.</p></div><div class="hero-visual">🏭</div></div>
+ <div class="grid stats">
+  <div class="stat"><div class="staticon">👥</div><div><label>Total employés</label><strong id="sWorkers">0</strong></div></div>
+  <div class="stat"><div class="staticon">✅</div><div><label>Présents</label><strong id="sPresent">0</strong></div></div>
+  <div class="stat"><div class="staticon">❌</div><div><label>Absents</label><strong id="sAbsent">0</strong></div></div>
+  <div class="stat"><div class="staticon">🧩</div><div><label>Congés</label><strong id="sLeave">0</strong></div></div>
+ </div>
+ <div class="grid cols">
+  <div class="card"><div class="cardhead"><h3>📈 Production par heure</h3><span class="muted">Aujourd'hui · toutes équipes</span></div><div class="chart" id="productionChart"></div><div class="legend"><span><i class="dot"></i>Pièces produites</span><span><i class="dot orange"></i>Objectif indicatif</span></div></div>
+  <div class="card"><div class="cardhead"><h3>👥 Avancement des équipes</h3><span class="muted">Objectif du jour</span></div><div class="teamlist" id="teamOverview"></div></div>
+ </div>
+ <div class="grid cols equal" style="margin-top:15px">
+  <div class="card"><div class="cardhead"><h3>⏱️ Dernières mises à jour</h3><button class="btn ghost small" data-goto="reports">Voir rapports</button></div><div id="recentUpdates"></div></div>
+  <div class="card"><div class="cardhead"><h3>🧭 Parcours de travail</h3></div>
+   <div class="teamlist">
+    <div class="teamrow"><div class="teamicon">1</div><div><b>Objectif du jour</b><small>Défini par l'admin pour chaque équipe</small></div><span class="status">Étape 1</span></div>
+    <div class="teamrow"><div class="teamicon">2</div><div><b>Affectation aux postes</b><small>Matricule et poste de chaque employé</small></div><span class="status">Étape 2</span></div>
+    <div class="teamrow"><div class="teamicon">3</div><div><b>Production horaire</b><small>Pièces de chaque heure, calcul automatique</small></div><span class="status">Étape 3</span></div>
+    <div class="teamrow"><div class="teamicon">4</div><div><b>Contrôle Supervisor</b><small>Vue globale et rapport par équipe</small></div><span class="status">Étape 4</span></div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section class="panel" id="team">
+ <div class="toolbar"><div><h2>👥 Gestion de mon équipe</h2><p>Ajoutez chaque employé avec son matricule et son poste</p></div></div>
+ <div class="grid stats">
+  <div class="stat"><div class="staticon">👷</div><div><label>Effectif</label><strong id="teamCount">0</strong></div></div>
+  <div class="stat"><div class="staticon">✅</div><div><label>Présents</label><strong id="teamPresent">0</strong></div></div>
+  <div class="stat"><div class="staticon">❌</div><div><label>Absents</label><strong id="teamAbsent">0</strong></div></div>
+  <div class="stat"><div class="staticon">🧩</div><div><label>Congés</label><strong id="teamLeave">0</strong></div></div>
+ </div>
+ <div class="card"><div class="cardhead"><h3>＋ Ajouter un employé</h3></div>
+  <div class="formgrid">
+   <div class="field"><label>Nom et prénom</label><input id="eName"></div>
+   <div class="field"><label>Matricule</label><input id="eMat"></div>
+   <div class="field"><label>Poste</label><select id="ePost"></select></div>
+  </div>
+  <div style="display:flex;justify-content:flex-end;margin-top:12px"><button class="btn orange" onclick="addEmployee()">Ajouter l'employé</button></div>
+ </div>
+ <div class="card" style="margin-top:15px"><div class="cardhead"><h3>Liste des employés</h3><span class="muted">Présence et poste</span></div><div class="tablewrap"><table><thead><tr><th>Matricule</th><th>Nom</th><th>Poste</th><th>Statut</th><th>Action</th></tr></thead><tbody id="employeeRows"></tbody></table></div></div>
+ <div class="card" style="margin-top:15px"><div class="cardhead"><h3>🏗️ Effectif par poste</h3></div><div class="postgrid" id="postCards"></div></div>
+</section>
+
+<section class="panel" id="hourly">
+ <div class="toolbar"><div><h2>🎯 Objectif & production horaire</h2><p>L'objectif est défini par l'admin, saisissez les pièces de chaque heure</p></div></div>
+ <div class="grid cols equal">
+  <div class="card"><div class="cardhead"><h3>🎯 Objectif du jour</h3><span class="muted" id="oStatus"></span></div>
+   <div class="formgrid two">
+    <div class="field"><label>Référence de la pièce</label><input id="oRef" readonly></div>
+    <div class="field"><label>Shift</label><input id="oShift" readonly></div>
+    <div class="field"><label>Objectif total (pièces)</label><input id="oObj" readonly></div>
+    <div class="field"><label>Objectif par heure</label><input id="oHour" readonly></div>
+   </div>
+   <div class="hint" id="oHint"></div>
+  </div>
+  <div class="card"><div class="cardhead"><h3>⏱️ Mise à jour de l'heure</h3><span class="muted">Envoyée à l'admin</span></div>
+   <div class="formgrid two">
+    <div class="field"><label>Heure</label><select id="hHour" onchange="previewHour()"></select></div>
+    <div class="field"><label>Pièces produites</label><input id="hPieces" type="number" min="0" style="font-size:20px;font-weight:850;color:#164fae"></div>
+    <div class="field"><label>Présents</label><input id="hPresent" type="number" min="0" value="0"></div>
+    <div class="field"><label>Absents</label><input id="hAbsent" type="number" min="0" value="0"></div>
+    <div class="field"><label>Congés</label><input id="hLeave" type="number" min="0" value="0"></div>
+    <div class="field"><label>Remarque</label><input id="hNote" placeholder="Ex. arrêt machine"></div>
+   </div>
+   <div class="hint" id="hTarget"></div>
+   <div style="display:flex;justify-content:flex-end;margin-top:12px"><button class="btn orange" onclick="saveHourly()">➤ Envoyer à l'admin</button></div>
+  </div>
+ </div>
+ <div class="card" style="margin-top:15px"><div class="cardhead"><h3>🕒 Suivi de la journée</h3></div><div id="hourHistory"></div></div>
+</section>
+
+<section class="panel" id="reports">
+ <div class="toolbar"><div><h2>📊 Rapports & statistiques</h2><p>Production, écart et évolution par heure</p></div><div style="display:flex;gap:8px;flex-wrap:wrap"><input type="date" id="rDate" onchange="renderReports()" style="border-radius:11px;padding:9px;border:1px solid #dce5f4"><button class="btn ghost" onclick="window.print()">🖨️ Imprimer / PDF</button></div></div>
+ <div class="grid stats">
+  <div class="stat"><div class="staticon">📦</div><div><label>Total pièces</label><strong id="rPieces">0</strong></div></div>
+  <div class="stat"><div class="staticon">⏱️</div><div><label>Mises à jour</label><strong id="rUpdates">0</strong></div></div>
+  <div class="stat"><div class="staticon">🎯</div><div><label>% objectif</label><strong id="rPres">—</strong></div></div>
+  <div class="stat"><div class="staticon">🏭</div><div><label>Équipes</label><strong id="rTeams">0</strong></div></div>
+ </div>
+ <div class="card"><div class="cardhead"><h3>📦 Production par heure</h3><span class="muted">Pièces · toutes équipes</span></div><div class="chart" id="reportChart"></div></div>
+ <div class="card" style="margin-top:15px"><div class="cardhead"><h3>📋 Détail des mises à jour</h3></div><div id="reportHistory"></div></div>
+</section>
+
+<section class="panel" id="supervisor">
+ <div class="hero"><div><h2>🛡️ Supervisor Dashboard</h2><p>Définissez l'objectif de chaque équipe et consultez le rapport de chacune séparément.</p></div><div class="hero-visual">📊</div></div>
+ <div class="grid stats">
+  <div class="stat"><div class="staticon">👥</div><div><label>Team Leaders</label><strong id="supLeaders">0</strong></div></div>
+  <div class="stat"><div class="staticon">✅</div><div><label>Présents</label><strong id="supPresent">0</strong></div></div>
+  <div class="stat"><div class="staticon">❌</div><div><label>Absents</label><strong id="supAbsent">0</strong></div></div>
+  <div class="stat"><div class="staticon">📦</div><div><label>Pièces aujourd'hui</label><strong id="supPieces">0</strong></div></div>
+ </div>
+ <div class="grid cols">
+  <div class="card"><div class="cardhead"><h3>Équipes sous supervision</h3><span class="muted">Aujourd'hui</span></div><div class="tablewrap"><table><thead><tr><th>Équipe</th><th>Team Leader</th><th>Référence</th><th>Objectif</th><th>Produit</th><th>%</th><th>Écart</th><th>Dernière MAJ</th></tr></thead><tbody id="supervisorRows"></tbody></table></div></div>
+  <div class="card"><div class="cardhead"><h3>🔔 Points à vérifier</h3></div><div class="teamlist" id="supAlerts"></div></div>
+ </div>
+ <div class="grid cols equal" style="margin-top:15px">
+  <div class="card"><div class="cardhead"><h3>🎯 Objectif par équipe</h3></div>
+   <div class="field" style="margin-bottom:11px"><label>Équipe</label><select id="sTeam" class="sel" onchange="loadObjForm()"></select></div>
+   <div class="formgrid two">
+    <div class="field"><label>Référence de la pièce</label><input id="sRef" placeholder="Ex. PN-4521"></div>
+    <div class="field"><label>Shift</label><select id="sShift" onchange="previewSObj()"></select></div>
+    <div class="field"><label>Objectif total (pièces)</label><input id="sObj" type="number" min="1" oninput="previewSObj()"></div>
+    <div class="field"><label>Objectif par heure</label><input id="sHour" readonly value="—"></div>
+   </div>
+   <div style="display:flex;justify-content:flex-end;margin-top:12px"><button class="btn orange" onclick="saveTeamObjective()">Enregistrer l'objectif</button></div>
+  </div>
+  <div class="card"><div class="cardhead"><h3>⏰ Shifts & horaires</h3><span class="muted">Défini par l'admin</span></div><div id="shiftCfg"></div>
+   <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:10px"><button class="btn ghost small" onclick="addShift()">＋ Shift</button><button class="btn orange small" onclick="saveShifts()">Enregistrer les shifts</button></div>
+  </div>
+ </div>
+ <div class="card" style="margin-top:15px">
+  <div class="cardhead"><h3>📋 Rapport de l'équipe</h3><select id="rTeam" class="sel" onchange="renderTeamReport()"></select></div>
+  <div id="teamReport"></div>
+ </div>
+</section>
+
+<section class="panel" id="users">
+ <div class="toolbar"><div><h2>🔐 Utilisateurs & accès</h2><p>Créer les comptes Admin et Team Leader</p></div></div>
+ <div class="card"><div class="cardhead"><h3>＋ Nouveau compte</h3></div>
+  <div class="formgrid">
+   <div class="field"><label>Nom complet</label><input id="uName"></div>
+   <div class="field"><label>Email</label><input id="uEmail" type="email"></div>
+   <div class="field"><label>Mot de passe (6 car. min)</label><input id="uPass" type="text"></div>
+   <div class="field"><label>Rôle</label><select id="uRole"><option value="leader">Team Leader</option><option value="admin">Admin / Supervisor</option></select></div>
+   <div class="field"><label>Équipe (Team Leader)</label><input id="uTeam" placeholder="Ex. Équipe A"></div>
+  </div>
+  <div style="display:flex;justify-content:flex-end;margin-top:12px"><button class="btn orange" onclick="addUser()">Créer le compte</button></div>
+ </div>
+ <div class="card" style="margin-top:15px"><div class="cardhead"><h3>Comptes existants</h3></div><div class="tablewrap"><table><thead><tr><th>Nom</th><th>Email</th><th>Rôle</th><th>Équipe</th><th>Statut</th><th>Actions</th></tr></thead><tbody id="userRows"></tbody></table></div></div>
+</section>
+
+<section class="panel" id="profile">
+ <div class="card" style="max-width:520px"><div class="cardhead"><h3>👤 Mon profil</h3></div>
+  <div style="display:flex;align-items:center;gap:16px;margin-bottom:14px"><span id="pAv"></span><div><label class="btn ghost small" style="display:inline-block">📷 Changer la photo<input type="file" accept="image/*" hidden onchange="pickPhoto(this)"></label><div class="muted" style="margin-top:6px" id="pInfo"></div></div></div>
+  <div class="field"><label>Nom complet</label><input id="pName"></div>
+  <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap"><button class="btn" onclick="saveProfile()">Enregistrer</button><button class="btn ghost" onclick="myReset()">Changer le mot de passe (email)</button><button class="btn red" onclick="logout()">⎋ Se déconnecter</button></div>
+ </div>
+</section>
+</main>
+</div>
+
+<div class="bottomnav" id="bottomNav">
+ <button class="active" data-page="dashboard"><span>▦</span>Accueil</button><button class="ldr" data-page="team"><span>👥</span>Équipe</button><button class="ldr" data-page="hourly"><span>🎯</span>Horaire</button><button data-page="reports"><span>📊</span>Rapports</button><button class="adm" data-page="supervisor"><span>🛡️</span>Équipes</button><button class="adm" data-page="users"><span>🔐</span>Users</button><button data-page="profile"><span>👤</span>Profil</button>
+</div>
+
+<div class="login" id="login"><div class="logincard"><div class="brandmark" style="margin:0 auto 10px">🏭</div><h2>LEONI TEAM MANAGEMENT</h2><p class="muted">Connexion Team Leader / Admin</p>
+<div class="field"><label>Email</label><input id="lEmail" type="email" autocomplete="username"></div>
+<div class="field"><label>Mot de passe</label><div style="position:relative"><input id="lPass" type="password" autocomplete="current-password" style="padding-right:78px" onkeydown="if(event.key==='Enter')login()"><button type="button" id="lEye" onclick="togglePass()" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:0;color:#2f5fb3;font-weight:800;font-size:13px;cursor:pointer;padding:8px">Afficher</button></div></div>
+<p id="lMsg" style="color:var(--red);font-size:12px;min-height:16px"></p><button class="btn orange" style="width:100%" onclick="login()">Se connecter</button></div></div>
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import {getAuth,signInWithEmailAndPassword,signOut,onAuthStateChanged,createUserWithEmailAndPassword,sendPasswordResetEmail} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import {getFirestore,doc,getDoc,setDoc,updateDoc,deleteDoc,addDoc,collection,query,where,getDocs,serverTimestamp} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+const firebaseConfig={apiKey:"AIzaSyDW1jQKGB9pI2sZA89OAp1DaqhcCGznNX4",authDomain:"leoni-team.firebaseapp.com",projectId:"leoni-team",storageBucket:"leoni-team.firebasestorage.app",messagingSenderId:"1073203516265",appId:"1:1073203516265:web:cae4afaf991f539638e3f8"};
+const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app),secAuth=getAuth(initializeApp(firebaseConfig,"sec"));
+
+const $=id=>document.getElementById(id);
+const POSTS=[{n:1,name:"Montage",icon:"⚙️"},{n:2,name:"Câblage",icon:"🔌"},{n:3,name:"Packaging",icon:"📦"},{n:4,name:"Contrôle",icon:"✔️"}];
+const postLabel=p=>`N°${p.n} · ${p.name}`;
+let SHIFTS=[{name:"Matin",start:"06:00",end:"14:00"},{name:"Soir",start:"14:00",end:"22:00"},{name:"Nuit",start:"22:00",end:"06:00"}];
+let ME=null,employees=[],reports=[],users=[],objectives=[];
+const today=()=>new Date().toLocaleDateString("en-CA"),isAdm=()=>ME?.role==="admin";
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const ini=n=>(n||"?").split(" ").map(x=>x[0]).slice(0,2).join("").toUpperCase();
+const av=(u,c="")=>u?.photo?`<div class="avatar ${c}" style="background-image:url(${u.photo})"></div>`:`<div class="avatar ${c}">${ini(u?.name)}</div>`;
+function toast(m,bad){const t=$("toast");t.textContent=m;t.style.background=bad?"#c52e3b":"#0c8d59";t.style.display="block";clearTimeout(window._t);window._t=setTimeout(()=>t.style.display="none",3000)}
+const run=async f=>{try{await f()}catch(e){console.error(e);toast("Erreur : "+(e.code||e.message),1)}};
+const list=async(c,w)=>(await getDocs(w?query(collection(db,c),w):collection(db,c))).docs.map(d=>({id:d.id,...d.data()}));
+
+/* ---------- SHIFTS ---------- */
+const mins=t=>{const[h,m]=t.split(":").map(Number);return h*60+m};
+const pad=n=>String(n).padStart(2,"0");
+const shiftOf=n=>SHIFTS.find(s=>s.name===n)||SHIFTS[0];
+const shiftHours=s=>Math.max(1,Math.round(((mins(s.end)-mins(s.start))+1440)%1440/60));
+const hourTime=(s,i)=>{const x=(mins(s.start)+i*60)%1440;return pad(Math.floor(x/60))+":"+pad(x%60)};
+const hourLabel=(s,i)=>hourTime(s,i)+"–"+hourTime(s,i+1);
+const hoursOf=o=>o?.hours||shiftHours(shiftOf(o?.shift));
+
+/* ---------- AUTH ---------- */
+window.togglePass=()=>{const i=$("lPass"),b=$("lEye"),show=i.type==="password";i.type=show?"text":"password";b.textContent=show?"Masquer":"Afficher"};
+window.login=async()=>{$("lMsg").textContent="";try{await signInWithEmailAndPassword(auth,$("lEmail").value.trim(),$("lPass").value)}catch(e){console.error(e);$("lMsg").textContent="Email ou mot de passe incorrect ("+(e.code||e.message)+")"}};
+window.logout=()=>signOut(auth);
+onAuthStateChanged(auth,async u=>{
+ if(!u){ME=null;document.body.removeAttribute("data-role");$("login").style.display="grid";return}
+ try{const s=await getDoc(doc(db,"users",u.uid));
+  if(!s.exists()||s.data().active===false){await signOut(auth);$("lMsg").textContent="Compte non autorisé ou désactivé";return}
+  ME={uid:u.uid,...s.data()};await load();document.body.dataset.role=ME.role;$("login").style.display="none";paintMe();go("dashboard",false);
+ }catch(e){console.error(e);await signOut(auth);$("lMsg").textContent="Erreur Firebase : "+(e.code||e.message)}
+});
+async function load(){
+ const sh=getDoc(doc(db,"settings","shifts")).catch(()=>null);
+ if(isAdm()){const[s,...r]=await Promise.all([sh,list("users"),list("employees"),list("reports"),list("objectives")]);[users,employees,reports,objectives]=r;if(s?.exists()&&s.data().list?.length)SHIFTS=s.data().list}
+ else{const w=where("leaderId","==",ME.uid);const[s,e,rp,ob]=await Promise.all([sh,list("employees",w),list("reports",w),list("objectives",w)]);employees=e;reports=rp;objectives=ob;users=[{...ME,id:ME.uid}];if(s?.exists()&&s.data().list?.length)SHIFTS=s.data().list}
+}
+function paintMe(){
+ $("topAv").innerHTML=av(ME);$("pAv").innerHTML=av(ME,"big");$("roleName").textContent=ME.name;
+ const r=isAdm()?"Supervisor / Admin":"Team Leader";$("roleSub").textContent=r+(ME.team?" · "+ME.team:"");$("sbRole").textContent=ME.name+" — "+r;
+}
+
+/* ---------- NAVIGATION + BOUTON RETOUR ---------- */
+const T={dashboard:"Dashboard",team:"Gestion de mon équipe",hourly:"Objectif & production horaire",reports:"Rapports & statistiques",supervisor:"Équipes sous supervision",users:"Utilisateurs & accès",profile:"Mon profil"};
+window.go=(p,push=true)=>{if(!ME||!T[p])return;
+ document.querySelectorAll(".panel").forEach(x=>x.classList.toggle("active",x.id===p));
+ document.querySelectorAll("[data-page]").forEach(x=>x.classList.toggle("active",x.dataset.page===p));
+ $("pageTitle").textContent=T[p];
+ ({dashboard:renderDash,team:renderEmployees,hourly:()=>{renderObjective();renderHourly()},reports:renderReports,supervisor:renderSup,users:renderUsers,profile:renderProfile})[p]?.();
+ if(push&&history.state?.page!==p)history.pushState({page:p},"");
+ window.scrollTo({top:0})};
+window.addEventListener("popstate",e=>{const p=e.state?.page||"dashboard";if(ME)go(p,false)});
+history.replaceState({page:"dashboard"},"");
+document.querySelectorAll("[data-page],[data-goto]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.page||b.dataset.goto)));
+
+/* ---------- CALCULS ---------- */
+const objOf=(lid,date=today())=>objectives.find(o=>o.leaderId===lid&&o.date===date);
+function calc(lid,date=today()){
+ const o=objOf(lid,date),H=hoursOf(o),target=o?Math.round(o.objective/H):0;
+ const rs=reports.filter(r=>r.leaderId===lid&&r.date===date&&typeof r.hour==="number").sort((a,b)=>a.hour-b.hour);
+ let cum=0;
+ const rows=rs.map(r=>{cum+=r.pieces;const ct=target*(r.hour+1);return{...r,target,cum,ct,gap:cum-ct}});
+ const last=rows[rows.length-1]||null;
+ return{o,rows,target,last,produced:cum,objective:o?.objective||0,pct:o?.objective?Math.round(cum/o.objective*100):0,gap:last?last.gap:0};
+}
+const gapHTML=g=>`<b style="color:${g<0?"#c52e3b":"#11834e"}">${g>0?"+":""}${g}</b>`;
+
+/* ---------- GRAPHIQUE ---------- */
+function renderChart(id,data,target){const el=$(id),max=Math.max(...data.map(x=>x.pieces),target,1);
+ el.innerHTML=data.map(x=>`<div class="bargrp"><div class="bar" style="height:${Math.max(3,x.pieces/max*85)}%"><span>${x.pieces}</span></div><div class="bar orangebar" style="height:${Math.max(3,target/max*85)}%"></div><div class="barlabel">${x.time}</div></div>`).join("")}
+function hourlyData(rs){const N=Math.max(8,...rs.map(r=>r.hour+1));
+ return Array.from({length:N},(_,i)=>({time:"H"+(i+1),pieces:rs.filter(r=>r.hour===i).reduce((s,r)=>s+r.pieces,0)}))}
+function hourlyChart(id,rs,date){
+ const tgt=objectives.filter(o=>o.date===date).reduce((s,o)=>s+Math.round(o.objective/hoursOf(o)),0);
+ renderChart(id,hourlyData(rs),tgt)}
+
+/* ---------- DASHBOARD ---------- */
+function updateStats(){const c=s=>employees.filter(x=>x.status===s).length;
+ [["sWorkers","teamCount",employees.length],["sPresent","teamPresent",c("Présent")],["sAbsent","teamAbsent",c("Absent")],["sLeave","teamLeave",c("Congé")]].forEach(([a,b,v])=>{$(a).textContent=v;$(b).textContent=v})}
+function renderDash(){updateStats();
+ const t=reports.filter(r=>r.date===today()&&typeof r.hour==="number");hourlyChart("productionChart",t,today());
+ const L=users.filter(u=>u.role==="leader");
+ $("teamOverview").innerHTML=L.map(u=>{const c=calc(u.id),pc=Math.min(100,c.pct);return `<div class="teamrow">${av(u)}<div><b>${esc(u.team||u.name)}</b><small>${c.produced} / ${c.objective||"—"} pièces${c.o?" · "+esc(c.o.ref):""}</small><div class="progress"><i style="width:${pc}%"></i></div></div><span class="percent">${c.objective?pc+"%":"—"}</span></div>`}).join("")||'<p class="muted">Aucune équipe.</p>';
+ $("recentUpdates").innerHTML=t.slice().sort((a,b)=>b.hour-a.hour).slice(0,4).map(r=>`<div class="teamrow"><div class="teamicon">🕒</div><div><b>${esc(r.team||r.leaderName)} · ${esc(r.label)}</b><small>${r.pieces} pièces${r.note?" · "+esc(r.note):""}</small></div><span class="status">Enregistré</span></div>`).join("")||'<p class="muted">Aucune mise à jour aujourd\'hui.</p>'}
+
+/* ---------- MON ÉQUIPE (Team Leader) ---------- */
+function renderEmployees(){updateStats();
+ $("ePost").innerHTML=POSTS.map(p=>`<option value="${postLabel(p)}">${postLabel(p)}</option>`).join("");
+ $("employeeRows").innerHTML=employees.map((e,i)=>`<tr><td><b>${esc(e.mat)}</b></td><td>${esc(e.name)}</td><td><select class="sel" onchange="setEmp(${i},'post',this.value)">${POSTS.map(p=>`<option ${e.post===postLabel(p)?"selected":""}>${postLabel(p)}</option>`).join("")}</select></td><td><select class="sel" onchange="setEmp(${i},'status',this.value)">${["Présent","Absent","Congé"].map(s=>`<option ${e.status===s?"selected":""}>${s}</option>`).join("")}</select></td><td><button class="btn red small" onclick="delEmp(${i})">✕</button></td></tr>`).join("")||'<tr><td colspan="5">Aucun employé — ajoutez-le avec le formulaire ci-dessus.</td></tr>';
+ $("postCards").innerHTML=POSTS.map(p=>`<div class="post"><div class="pico">${p.icon}</div><b>${postLabel(p)}</b><small>${employees.filter(e=>e.post===postLabel(p)).length} employé(s)</small></div>`).join("")}
+window.setEmp=(i,k,v)=>run(async()=>{employees[i][k]=v;await updateDoc(doc(db,"employees",employees[i].id),{[k]:v});updateStats();renderEmployees()});
+window.addEmployee=()=>run(async()=>{const name=$("eName").value.trim(),mat=$("eMat").value.trim(),post=$("ePost").value;
+ if(!name||!mat){toast("Nom et matricule requis",1);return}
+ const e={leaderId:ME.uid,mat,name,status:"Présent",post};e.id=(await addDoc(collection(db,"employees"),e)).id;employees.push(e);
+ $("eName").value="";$("eMat").value="";renderEmployees();toast("Employé ajouté ✓")});
+window.delEmp=i=>run(async()=>{if(!confirm("Supprimer "+employees[i].name+" ?"))return;await deleteDoc(doc(db,"employees",employees[i].id));employees.splice(i,1);renderEmployees()});
+
+/* ---------- OBJECTIF & HORAIRE (Team Leader, lecture seule pour l'objectif) ---------- */
+function renderObjective(){const o=objOf(ME.uid);
+ $("oRef").value=o?.ref||"—";$("oShift").value=o?`${o.shift} · ${hoursOf(o)} h`:"—";$("oObj").value=o?o.objective:"—";$("oHour").value=o?Math.round(o.objective/hoursOf(o))+" pcs / heure":"—";
+ $("oStatus").textContent=o?"Défini par l'admin":"Non défini";
+ $("oHint").textContent=o?"":"L'admin n'a pas encore défini l'objectif du jour."}
+function renderHourly(){const o=objOf(ME.uid),c=calc(ME.uid),s=shiftOf(o?.shift||SHIFTS[0].name),H=hoursOf(o||{shift:s.name}),done=new Set(c.rows.map(r=>r.hour));
+ $("hHour").innerHTML=Array.from({length:H},(_,i)=>`<option value="${i}">${done.has(i)?"✓ ":""}${i+1}ª · ${hourLabel(s,i)}</option>`).join("");
+ const next=[...Array(H).keys()].find(i=>!done.has(i));$("hHour").value=next??0;previewHour();
+ $("hourHistory").innerHTML=`<p class="muted" style="margin:0 0 10px">Objectif : <b>${c.objective||"—"}</b> · Produit : <b>${c.produced}</b>${c.objective?" · "+c.pct+"%":""} · Écart : ${o?gapHTML(c.gap):"—"}</p>`+
+ (c.rows.length?`<div class="tablewrap"><table><thead><tr><th>Heure</th><th>Pièces</th><th>Objectif/h</th><th>Cumul</th><th>Écart</th><th>Prés./Abs./Congé</th><th>Remarque</th></tr></thead><tbody>${c.rows.map(r=>`<tr><td><b>${esc(r.label)}</b></td><td><b>${r.pieces}</b></td><td>${r.target}</td><td>${r.cum}</td><td>${gapHTML(r.gap)}</td><td>${r.present} / ${r.absent} / ${r.leave}</td><td>${esc(r.note)||"—"}</td></tr>`).join("")}</tbody></table></div>`:'<p class="muted">Aucune mise à jour aujourd\'hui.</p>')}
+window.previewHour=()=>{const o=objOf(ME.uid),i=+$("hHour").value;
+ if(!o){$("hTarget").textContent="En attente de l'objectif défini par l'admin.";return}
+ const t=Math.round(o.objective/hoursOf(o));$("hTarget").textContent=`Objectif de cette heure : ${t} pièces · Cumul attendu : ${t*(i+1)} pièces`};
+window.saveHourly=()=>run(async()=>{const o=objOf(ME.uid);if(!o){toast("Pas encore d'objectif défini par l'admin",1);return}
+ const i=+$("hHour").value,v=k=>+$(k).value||0;
+ if($("hPieces").value===""||+$("hPieces").value<0){toast("Nombre de pièces invalide",1);return}
+ const s=shiftOf(o.shift),pieces=+$("hPieces").value;
+ const r={leaderId:ME.uid,leaderName:ME.name,team:ME.team||"",date:today(),hour:i,label:hourLabel(s,i),time:hourTime(s,i),pieces,present:v("hPresent"),absent:v("hAbsent"),leave:v("hLeave"),note:$("hNote").value.trim(),ref:o.ref,objective:o.objective,shift:o.shift};
+ const id=`${ME.uid}_${r.date}_h${i}`;
+ await setDoc(doc(db,"reports",id),{...r,updatedAt:serverTimestamp()});
+ const k=reports.findIndex(x=>x.id===id),ob={...r,id};k<0?reports.push(ob):reports[k]=ob;
+ $("hPieces").value="";$("hNote").value="";renderHourly();toast("Mise à jour envoyée à l'admin ✓")});
+
+/* ---------- RAPPORTS (admin : toutes équipes) ---------- */
+window.renderReports=renderReports;
+function renderReports(){const d=$("rDate");if(!d.value)d.value=today();const date=d.value;
+ const f=reports.filter(r=>r.date===date&&typeof r.hour==="number");
+ const leaders=[...new Set(f.map(r=>r.leaderId))];
+ const prod=f.reduce((s,r)=>s+r.pieces,0),obj=objectives.filter(o=>o.date===date).reduce((s,o)=>s+o.objective,0);
+ $("rPieces").textContent=prod.toLocaleString("fr-FR");$("rUpdates").textContent=f.length;$("rPres").textContent=obj?Math.round(prod/obj*100)+"%":"—";$("rTeams").textContent=leaders.length;
+ hourlyChart("reportChart",f,date);
+ const rows=leaders.flatMap(lid=>calc(lid,date).rows.map(r=>({...r,name:r.team||r.leaderName})));
+ $("reportHistory").innerHTML=`<div class="tablewrap"><table><thead><tr><th>Heure</th><th>Équipe</th><th>Référence</th><th>Objectif/h</th><th>Pièces</th><th>Cumul</th><th>Écart</th><th>Remarque</th></tr></thead><tbody>${rows.map(r=>`<tr><td><b>${esc(r.label)}</b></td><td>${esc(r.name)}</td><td>${esc(r.ref)}</td><td>${r.target}</td><td><b>${r.pieces}</b></td><td>${r.cum}</td><td>${gapHTML(r.gap)}</td><td>${esc(r.note)||"—"}</td></tr>`).join("")||'<tr><td colspan="8">Aucun rapport pour cette date</td></tr>'}</tbody></table></div>`}
+
+/* ---------- ADMIN : équipes ---------- */
+const leaders=()=>users.filter(u=>u.role==="leader"&&u.active!==false);
+function renderSup(){const L=leaders(),rows=L.map(u=>({u,c:calc(u.id)}));
+ $("supLeaders").textContent=L.length;
+ $("supPresent").textContent=rows.reduce((s,{c})=>s+(c.last?.present||0),0);
+ $("supAbsent").textContent=rows.reduce((s,{c})=>s+(c.last?.absent||0),0);
+ $("supPieces").textContent=rows.reduce((s,{c})=>s+c.produced,0).toLocaleString("fr-FR");
+ $("supervisorRows").innerHTML=rows.map(({u,c})=>`<tr><td><b>${esc(u.team||"—")}</b></td><td><div style="display:flex;gap:8px;align-items:center">${av(u)}${esc(u.name)}</div></td><td>${esc(c.o?.ref||"—")}</td><td>${c.objective||"—"}</td><td><b>${c.produced}</b></td><td>${c.objective?c.pct+"%":"—"}</td><td>${c.o?gapHTML(c.gap):"—"}</td><td>${c.last?esc(c.last.label):"—"}</td></tr>`).join("")||'<tr><td colspan="8">Aucun Team Leader — créez-en dans « Utilisateurs ».</td></tr>';
+ $("supAlerts").innerHTML=rows.map(({u,c})=>{
+  let icon="✅",msg=`Dans l'objectif (${c.gap>=0?"+":""}${c.gap})`,cls="";
+  if(!c.o){icon="⚠️";msg="Objectif non défini";cls="warn"}
+  else if(!c.last){icon="⏳";msg="Aucune mise à jour aujourd'hui";cls="warn"}
+  else if(c.gap<0){icon="🔴";msg=`En retard de ${Math.abs(c.gap)} pièces`;cls="bad"}
+  return `<div class="teamrow"><div class="teamicon">${icon}</div><div><b>${esc(u.team||u.name)}</b><small>${msg}</small></div><span class="status ${cls}">${cls==="bad"?"Retard":cls==="warn"?"Attention":"OK"}</span></div>`}).join("")||'<p class="muted">Aucune équipe.</p>';
+ fillSelects();loadObjForm();renderShiftCfg();renderTeamReport()}
+function fillSelects(){const keepT=$("sTeam").value,keepR=$("rTeam").value;
+ const opts=leaders().map(u=>`<option value="${u.id}">${esc(u.team||u.name)} · ${esc(u.name)}</option>`).join("")||'<option value="">Aucun Team Leader</option>';
+ $("sTeam").innerHTML=opts;$("rTeam").innerHTML=opts;
+ if(keepT)$("sTeam").value=keepT;if(keepR)$("rTeam").value=keepR;
+ $("sShift").innerHTML=SHIFTS.map(s=>`<option value="${esc(s.name)}">${esc(s.name)} · ${s.start}–${s.end}</option>`).join("")}
+window.loadObjForm=()=>{const o=objOf($("sTeam").value);
+ $("sRef").value=o?.ref||"";$("sObj").value=o?.objective||"";if(o)$("sShift").value=o.shift;previewSObj()};
+window.previewSObj=()=>{const v=+$("sObj").value||0,h=shiftHours(shiftOf($("sShift").value));$("sHour").value=v?Math.round(v/h)+" pcs / heure ("+h+" h)":"—"};
+window.saveTeamObjective=()=>run(async()=>{const lid=$("sTeam").value,L=users.find(u=>u.id===lid);
+ if(!L){toast("Choisissez une équipe",1);return}
+ const objective=+$("sObj").value,ref=$("sRef").value.trim(),shift=$("sShift").value,s=shiftOf(shift);
+ if(!ref||!(objective>0)){toast("Référence et objectif (> 0) requis",1);return}
+ const id=`${lid}_${today()}`,d={leaderId:lid,leaderName:L.name,team:L.team||"",date:today(),ref,objective,shift,hours:shiftHours(s),setBy:ME.uid};
+ await setDoc(doc(db,"objectives",id),{...d,updatedAt:serverTimestamp()});
+ const k=objectives.findIndex(x=>x.id===id),ob={...d,id};k<0?objectives.push(ob):objectives[k]=ob;
+ renderSup();toast("Objectif enregistré pour "+(L.team||L.name)+" ✓")});
+window.renderTeamReport=()=>{const lid=$("rTeam").value,L=users.find(u=>u.id===lid),box=$("teamReport");
+ if(!L){box.innerHTML='<p class="muted">Aucune équipe.</p>';return}
+ const c=calc(lid),emps=employees.filter(e=>e.leaderId===lid);
+ box.innerHTML=`<div class="grid stats">
+  <div class="stat"><div class="staticon">🎯</div><div><label>Objectif</label><strong>${c.objective||"—"}</strong></div></div>
+  <div class="stat"><div class="staticon">📦</div><div><label>Produit</label><strong>${c.produced}</strong></div></div>
+  <div class="stat"><div class="staticon">📈</div><div><label>% atteint</label><strong>${c.objective?c.pct+"%":"—"}</strong></div></div>
+  <div class="stat"><div class="staticon">⚖️</div><div><label>Écart</label><strong>${c.o?c.gap:"—"}</strong></div></div>
+ </div>
+ <div class="card" style="box-shadow:none;border:1px solid var(--line);padding:14px"><div class="cardhead"><h3>Production horaire · ${esc(L.team||L.name)}</h3><span class="muted">${c.o?esc(c.o.ref)+" · "+esc(c.o.shift):"Pas d'objectif"}</span></div><div class="chart" id="teamChart"></div></div>
+ <div class="tablewrap" style="margin-top:14px"><table><thead><tr><th>Heure</th><th>Pièces</th><th>Objectif/h</th><th>Cumul</th><th>Écart</th><th>Prés./Abs./Congé</th><th>Remarque</th></tr></thead><tbody>${c.rows.map(r=>`<tr><td><b>${esc(r.label)}</b></td><td><b>${r.pieces}</b></td><td>${r.target}</td><td>${r.cum}</td><td>${gapHTML(r.gap)}</td><td>${r.present} / ${r.absent} / ${r.leave}</td><td>${esc(r.note)||"—"}</td></tr>`).join("")||'<tr><td colspan="7">Aucune mise à jour aujourd\'hui</td></tr>'}</tbody></table></div>
+ <div class="cardhead" style="margin-top:16px"><h3>👷 Employés & postes</h3><span class="muted">${emps.length} employé(s)</span></div>
+ <div class="tablewrap"><table><thead><tr><th>Matricule</th><th>Nom</th><th>Poste</th><th>Statut</th></tr></thead><tbody>${emps.map(e=>`<tr><td><b>${esc(e.mat)}</b></td><td>${esc(e.name)}</td><td>${esc(e.post)}</td><td><span class="status ${e.status==="Présent"?"":e.status==="Absent"?"bad":"warn"}">${esc(e.status)}</span></td></tr>`).join("")||'<tr><td colspan="4">Aucun employé</td></tr>'}</tbody></table></div>`;
+ renderChart("teamChart",hourlyData(c.rows),c.target)};
+
+/* ---------- SHIFTS (admin) ---------- */
+function renderShiftCfg(){$("shiftCfg").innerHTML=SHIFTS.map((s,i)=>`<div style="display:grid;grid-template-columns:1.2fr 1fr 1fr auto;gap:8px;margin-bottom:8px"><input id="sn${i}" value="${esc(s.name)}" class="sel"><input id="ss${i}" type="time" value="${s.start}" class="sel"><input id="se${i}" type="time" value="${s.end}" class="sel"><button class="btn red small" onclick="delShift(${i})">✕</button></div>`).join("")}
+function syncShifts(){SHIFTS=SHIFTS.map((s,i)=>({name:$("sn"+i)?.value??s.name,start:$("ss"+i)?.value??s.start,end:$("se"+i)?.value??s.end}))}
+window.addShift=()=>{syncShifts();SHIFTS.push({name:"Shift "+(SHIFTS.length+1),start:"08:00",end:"16:00"});renderShiftCfg()};
+window.delShift=i=>{syncShifts();SHIFTS.splice(i,1);renderShiftCfg()};
+window.saveShifts=()=>run(async()=>{syncShifts();const list=SHIFTS.filter(s=>s.name&&s.start&&s.end);
+ if(!list.length){toast("Ajoutez au moins un shift",1);return}
+ await setDoc(doc(db,"settings","shifts"),{list});SHIFTS=list;renderSup();toast("Shifts enregistrés ✓")});
+
+/* ---------- ADMIN : utilisateurs ---------- */
+function renderUsers(){$("userRows").innerHTML=users.map(u=>`<tr><td><div style="display:flex;gap:8px;align-items:center">${av(u)}<b>${esc(u.name)}</b></div></td><td>${esc(u.email)}</td><td><span class="tag">${u.role==="admin"?"Admin":"Team Leader"}</span></td><td>${esc(u.team||"—")}</td><td><span class="status ${u.active===false?"bad":""}">${u.active===false?"Désactivé":"Actif"}</span></td><td>${u.id===ME.uid?"—":`<button class="btn ghost small" onclick="toggleUser('${u.id}')">${u.active===false?"Activer":"Désactiver"}</button> <button class="btn ghost small" onclick="resetPw('${u.id}')">Mot de passe</button>`}</td></tr>`).join("")}
+window.addUser=()=>run(async()=>{const name=$("uName").value.trim(),email=$("uEmail").value.trim(),pw=$("uPass").value,role=$("uRole").value,team=$("uTeam").value.trim();
+ if(!name||!email||pw.length<6){toast("Nom, email et mot de passe (6 caractères min) requis",1);return}
+ try{const c=await createUserWithEmailAndPassword(secAuth,email,pw),u={name,email,role,team,active:true,photo:"",createdAt:Date.now()};
+  await setDoc(doc(db,"users",c.user.uid),u);users.push({id:c.user.uid,...u})}finally{await signOut(secAuth)}
+ ["uName","uEmail","uPass","uTeam"].forEach(k=>$(k).value="");renderUsers();toast("Compte créé ✓")});
+window.toggleUser=id=>run(async()=>{const u=users.find(x=>x.id===id);u.active=u.active===false;await updateDoc(doc(db,"users",id),{active:u.active});renderUsers()});
+window.resetPw=id=>run(async()=>{await sendPasswordResetEmail(auth,users.find(x=>x.id===id).email);toast("Email de réinitialisation envoyé")});
+
+/* ---------- PROFIL ---------- */
+function renderProfile(){$("pName").value=ME.name;$("pInfo").textContent=ME.email+" · "+(isAdm()?"Admin":"Team Leader")}
+const toJpeg=f=>new Promise((ok,ko)=>{const r=new FileReader();r.onerror=ko;r.onload=()=>{const i=new Image();i.onerror=ko;i.onload=()=>{const c=document.createElement("canvas");c.width=c.height=200;const s=Math.min(i.width,i.height);c.getContext("2d").drawImage(i,(i.width-s)/2,(i.height-s)/2,s,s,0,0,200,200);ok(c.toDataURL("image/jpeg",.8))};i.src=r.result};r.readAsDataURL(f)});
+const sync=p=>{Object.assign(ME,p);const m=users.find(u=>u.id===ME.uid);if(m)Object.assign(m,p);paintMe()};
+window.pickPhoto=el=>run(async()=>{if(!el.files[0])return;const photo=await toJpeg(el.files[0]);await updateDoc(doc(db,"users",ME.uid),{photo});sync({photo});renderProfile();toast("Photo mise à jour ✓")});
+window.saveProfile=()=>run(async()=>{const name=$("pName").value.trim();if(!name)return;await updateDoc(doc(db,"users",ME.uid),{name});sync({name});toast("Profil enregistré ✓")});
+window.myReset=()=>run(async()=>{await sendPasswordResetEmail(auth,ME.email);toast("Email envoyé à "+ME.email)});
+</script>
+</body></html>
